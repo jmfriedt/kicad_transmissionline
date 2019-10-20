@@ -12,5 +12,5 @@ Select Track
 Tools -> External Plugin -> TransmissionLine
 
 <p align="center">
-  <img src="transmission_plugin.png" width="350" title="Transmission line plugin" alt="Transmission line plugin">
+  <img src="transmission_plugin.png" width="550" title="Transmission line plugin" alt="Transmission line plugin">
 </p>
