@@ -3,6 +3,12 @@ import os
 import math 
 dL=2000000	# spacing between vias
 R=2000000	# distance to track
+pcb = pcbnew.GetBoard()
+
+nets = pcb.GetNetsByName()
+gndnet = nets.find("GND").value()[1]
+gndclass = gndnet.GetNetClass()
+print(str(gndnet.GetNetname())+" "+str(gndnet.GetNet()))
 
 class TransmissionLine(pcbnew.ActionPlugin):
 	def defaults(self):
@@ -39,6 +45,7 @@ class TransmissionLine(pcbnew.ActionPlugin):
 						newvia.SetPosition(pcbnew.wxPoint(xp,yp))
 						newvia.SetViaType(pcbnew.VIA_THROUGH)
 						newvia.SetWidth(1000000)
+						newvia.SetNetCode(gndcode)
 						pcb.Add(newvia)
 						yp=a*x+b+R*math.sin(theta-3.14159/2)
 						xp=x+R*math.cos(theta-3.14159/2)
@@ -47,6 +54,7 @@ class TransmissionLine(pcbnew.ActionPlugin):
 						newvia.SetPosition(pcbnew.wxPoint(xp,yp))
 						newvia.SetViaType(pcbnew.VIA_THROUGH)
 						newvia.SetWidth(1000000)
+						newvia.SetNetCode(gndcode)
 						pcb.Add(newvia)
 						x=x+dL*math.cos(theta)
 				elif track.GetLength()>0:
@@ -60,6 +68,21 @@ class TransmissionLine(pcbnew.ActionPlugin):
 						newvia.SetPosition(pcbnew.wxPoint(xp,y))
 						newvia.SetViaType(pcbnew.VIA_THROUGH)
 						newvia.SetWidth(1000000)
+						newvia.SetNetCode(gndcode)
+						pcb.Add(newvia)
+						x=x+dL*math.cos(theta)
+				elif track.GetLength()>0:
+					x=track.GetStart().x
+					print("Vertical: Start: "+str(track.GetStart().y)+" End: "+str(track.GetEnd().y))
+					y=min(track.GetStart().y,track.GetEnd().y)
+					while y<max(track.GetStart().y,track.GetEnd().y):
+						xp=x+R
+						newvia=pcbnew.VIA(pcb)
+						newvia.SetLayerPair(pcbnew.PCBNEW_LAYER_ID_START, pcbnew.PCBNEW_LAYER_ID_START+31)
+						newvia.SetPosition(pcbnew.wxPoint(xp,y))
+						newvia.SetViaType(pcbnew.VIA_THROUGH)
+						newvia.SetWidth(1000000)
+						newvia.SetNetCode(gndcode)
 						pcb.Add(newvia)
 						xp=x-R
 						newvia=pcbnew.VIA(pcb)
@@ -67,6 +90,7 @@ class TransmissionLine(pcbnew.ActionPlugin):
 						newvia.SetPosition(pcbnew.wxPoint(xp,y))
 						newvia.SetViaType(pcbnew.VIA_THROUGH)
 						newvia.SetWidth(1000000)
+						newvia.SetNetCode(gndcode)
 						pcb.Add(newvia)
 						y=y+dL
 		pcbnew.Refresh()
