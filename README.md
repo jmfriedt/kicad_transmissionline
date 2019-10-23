@@ -9,7 +9,7 @@ In PCBNew: draw Track
 
 Select Track
 
-Tools -> External Plugin -> TransmissionLine to decorate the transmission line with vias. The distance between vias and from the track to vias is defined in constants in the Python script: could be improved with menus if I knew how to do so.
+Tools -> External Plugin -> TransmissionLine to decorate the transmission line with vias. The distance between vias and from the track to vias is defined as constants in the Python script: could be improved with menus if I knew how to do so. Default behaviour is to assign the vias to the GND net and connect from bottom to top copper layers.
 
 <p align="center">
   <img src="transmission_plugin.png" width="550" title="Transmission line plugin" alt="Transmission line plugin">
